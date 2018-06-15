@@ -1,7 +1,8 @@
 import React from 'react'
 import {connect} from "react-redux"
-import {requestSampleData, sampleAction} from '../actions/sample'
+import {requestSampleData, sampleAction, receiveSampleData} from '../actions/sample'
 import Jumbotron from '../components/Jumbotron'
+import { fetchSampleData } from '../effects/sample';
 
 
 export const mapStateToProps = (state) => {
@@ -13,7 +14,11 @@ export const mapStateToProps = (state) => {
 export const mapDispatchToProps = (dispatch) => {
 	return {
 		onSampleBtnClick   : () => dispatch(sampleAction()),
-		onGetSampleBtnClick: () => dispatch(requestSampleData())
+		onGetSampleBtnClick: () => {
+			fetchSampleData().then(res => {
+				dispatch(receiveSampleData(res))
+			});
+		}
 	}
 }
 
